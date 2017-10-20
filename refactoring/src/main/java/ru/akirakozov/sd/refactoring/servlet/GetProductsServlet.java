@@ -1,7 +1,7 @@
 package ru.akirakozov.sd.refactoring.servlet;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ru.akirakozov.sd.refactoring.utils.DBHelper;
+import ru.akirakozov.sd.refactoring.utils.ResponseHelper;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,8 +14,6 @@ import java.util.List;
 
 public class GetProductsServlet extends HttpServlet {
 
-    private final Logger logger = LoggerFactory.getLogger(GetProductsServlet.class);
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<String> productsFromDatabase = getProductsFromDatabase();
@@ -24,40 +22,28 @@ public class GetProductsServlet extends HttpServlet {
     }
 
     private void createResponse(HttpServletResponse resp, List<String> productsFromDatabase) {
-        try {
-            resp.getWriter().println("<html><body>");
+        ResponseHelper.createResponse(response -> {
+            response.getWriter().println("<html><body>");
 
-            productsFromDatabase.forEach(resp.getWriter()::println);
+            productsFromDatabase.forEach(response.getWriter()::println);
 
             if (productsFromDatabase.isEmpty()) {
-                resp.getWriter().println("No products are found");
+                response.getWriter().println("No products are found");
             }
 
-            resp.getWriter().println("</body></html>");
-
-            resp.setContentType("text/html");
-            resp.setStatus(HttpServletResponse.SC_OK);
-
-        } catch (IOException e) {
-            logger.error("Error while creating a response", e);
-            throw new RuntimeException(e);
-        }
+            response.getWriter().println("</body></html>");
+        }, resp);
     }
 
     private List<String> getProductsFromDatabase() {
-        try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db");
-                Statement statement = c.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT");
+        return DBHelper.queryDatabase((stmt) -> {
+            ResultSet resultSet = stmt.executeQuery("SELECT * FROM PRODUCT");
 
             List<String> products = new ArrayList<>();
 
-            QueryServlet.parseNamePrice(products, resultSet);
+            DBHelper.parseNamePrice(products, resultSet);
 
             return products;
-        }
-        catch (SQLException e) {
-            logger.error("Error while getting products", e);
-            throw new RuntimeException(e);
-        }
+        });
     }
 }
