@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class QueryServlet extends HttpServlet {
 
@@ -19,14 +18,17 @@ public class QueryServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String command = req.getParameter("command");
 
-        Optional<List<String>> strings = queryDatabase(command);
-
-        if (!strings.isPresent()) {
-            createUnknownCommandResponse(resp, command);
+        if (isKnownCommand(command)) {
+            List<String> strings = queryDatabase(command);
+            createResponse(resp, strings, command);
         }
         else {
-            createResponse(resp, strings.get(), command);
+            createUnknownCommandResponse(resp, command);
         }
+    }
+
+    private boolean isKnownCommand(String command) {
+        return command.equals("max") || command.equals("min") || command.equals("sum");
     }
 
     private void createUnknownCommandResponse(HttpServletResponse resp, String command) {
@@ -56,9 +58,8 @@ public class QueryServlet extends HttpServlet {
         }, resp);
     }
 
-    @SuppressWarnings("unchecked")
-    private Optional<List<String>> queryDatabase(String command) {
-        return (Optional<List<String>>) DBHelper.queryDatabase((stmt) -> {
+    private List<String> queryDatabase(String command) {
+        return DBHelper.queryDatabase((stmt) -> {
             List<String> ans = new ArrayList<>();
             ResultSet resultSet;
             switch (command) {
@@ -75,9 +76,9 @@ public class QueryServlet extends HttpServlet {
                     ans.add(String.valueOf(resultSet.getInt(1)));
                     break;
                 default :
-                    return Optional.empty();
+                    throw new IllegalStateException();
             }
-            return Optional.of(ans);
+            return ans;
         });
     }
 
