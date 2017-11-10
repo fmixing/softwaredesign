@@ -1,6 +1,5 @@
 import org.joda.time.DateTime;
 import org.joda.time.Hours;
-import twitter4j.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +11,8 @@ public class TweetsCounterImpl implements TweetsCounter {
     private final Requester requester;
 
 
-    public TweetsCounterImpl(TwitterProperties properties) {
-        requester = new RequesterImpl(properties);
+    public TweetsCounterImpl(String bearer, String requestURL) {
+        requester = new RequesterImpl(bearer, requestURL);
     }
 
 
@@ -22,11 +21,11 @@ public class TweetsCounterImpl implements TweetsCounter {
         DateTime dateTime = new DateTime();
         DateTime limit = dateTime.minusHours(countOfHours);
 
-        List<Status> tweets = requester.searchWithLimit(dateTime.toDate(), hashtag);
+        List<Tweet> tweets = requester.searchWithLimit(dateTime, hashtag);
 
-        Map<Integer, Long> collect = tweets.stream().filter(tweet -> tweet.getCreatedAt().after(limit.toDate()))
-                .collect(Collectors.groupingBy((Status v) ->
-                                Hours.hoursBetween(new DateTime(v.getCreatedAt()), dateTime).getHours(),
+        Map<Integer, Long> collect = tweets.stream().filter(tweet -> tweet.getCreationDate().isAfter(limit))
+                .collect(Collectors.groupingBy((Tweet v) ->
+                                Hours.hoursBetween(v.getCreationDate(), dateTime).getHours(),
                         Collectors.counting()));
 
         List<Long> ans = new ArrayList<>();

@@ -1,9 +1,8 @@
-import twitter4j.Status;
+import org.joda.time.DateTime;
 
-import java.util.Date;
 import java.util.List;
 
 public interface Requester {
 
-    List<Status> searchWithLimit(Date limit, String hashtag);
+    List<Tweet> searchWithLimit(DateTime limit, String hashtag);
 }
