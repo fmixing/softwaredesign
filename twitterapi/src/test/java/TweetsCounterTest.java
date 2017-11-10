@@ -43,7 +43,7 @@ public class TweetsCounterTest {
 
     @Test
     public void testTweetsCounting() {
-        List<Long> hashtag = tweetsCounter.getTweetsCount(10, "hashtag");
+        List<Long> hashtag = tweetsCounter.getTweetsCount(limitHours, "hashtag");
 
         Assert.assertThat(hashtag, is(answer));
     }

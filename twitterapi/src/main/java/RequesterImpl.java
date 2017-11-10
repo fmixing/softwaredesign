@@ -3,6 +3,7 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class RequesterImpl implements Requester{
 
@@ -31,7 +32,9 @@ public class RequesterImpl implements Requester{
             }
 
             lastSeen = min.get().getCreationDate();
-            tweets.addAll(tweetsCurr);
+            tweets.addAll(tweetsCurr.stream()
+                    .filter(tweet -> tweet.getCreationDate().isAfter(limit) || tweet.getCreationDate().isEqual(limit))
+                    .collect(Collectors.toList()));
         }
         while (limit.isBefore(lastSeen));
 
@@ -43,9 +46,9 @@ public class RequesterImpl implements Requester{
         return tweetsCurr.stream().
                 min((t1, t2) -> {
                     if (t1.getCreationDate().isBefore(t2.getCreationDate()))
-                        return 1;
-                    if (t1.getCreationDate().isAfter(t2.getCreationDate()))
                         return -1;
+                    if (t1.getCreationDate().isAfter(t2.getCreationDate()))
+                        return 1;
                     return 0;
                 });
     }
