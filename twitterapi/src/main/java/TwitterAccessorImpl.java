@@ -35,7 +35,7 @@ public class TwitterAccessorImpl implements TwitterAccessor {
 
         HttpRequest httpRequest = Unirest.get(requestURL)
                 .header("Authorization", bearer)
-                .queryString("q", "%23" + hashtag)
+                .queryString("q",  hashtag)
                 .queryString("result_type", "recent")
                 .queryString("count", "100");
 

@@ -26,7 +26,7 @@ public class Main {
 
             TweetsCounter tweetsCounter = new TweetsCounterImpl(bearer, url);
 
-            List<Long> tweetsCount = tweetsCounter.getTweetsCount(3, "#GoGoVP");
+            List<Long> tweetsCount = tweetsCounter.getTweetsCount(1, "#Twitter");
 
             System.out.println(tweetsCount);
         } catch (Exception e) {
