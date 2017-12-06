@@ -8,15 +8,13 @@ import token.Token;
 import java.util.Stack;
 
 public class CalcVisitor implements TokenVisitor {
-
-
     private Stack<Integer> ans = new Stack<>();
 
 
     public int calculate(Stack<Token> tokens) {
         tokens.forEach(token -> token.accept(this));
         if (ans.size() != 1) {
-            throw new IllegalStateException("Something went really bad");
+            throw new IllegalStateException("Something went really bad: tokens " + tokens + ", result stack " + ans);
         }
 
         return ans.pop();

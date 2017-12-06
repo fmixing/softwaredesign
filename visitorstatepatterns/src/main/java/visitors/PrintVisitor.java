@@ -29,6 +29,7 @@ public class PrintVisitor implements TokenVisitor {
         throw new IllegalStateException("Something went really wrong: at the printing stage there should not be any brackets");
     }
 
+
     @Override
     public void visit(Operation token) {
         stringBuilder.append(token.toString()).append(" ");

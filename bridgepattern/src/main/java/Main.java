@@ -16,7 +16,7 @@ public class Main {
         Graph graph;
 
         if (args.length != 5) {
-            System.err.println("bad");
+            System.err.println("The length of arguments should be equal to 5");
             return;
         }
 
@@ -28,7 +28,8 @@ public class Main {
             Config.setWidth(width);
             Config.setHeight(height);
         } catch (NumberFormatException e) {
-            System.err.println("bad");
+            System.err.println("Can't parse width and height");
+            return;
         }
 
         switch (args[2]) {
@@ -39,7 +40,7 @@ public class Main {
                 api = new JavaAWTDrawingApi();
                 break;
             default:
-                System.err.println("bad");
+                System.err.println("Type of drawing api should be javafx or awt");
                 return;
         }
 
@@ -51,7 +52,7 @@ public class Main {
                 graph = new EdgeListGraph(api);
                 break;
             default:
-                System.err.println("bad");
+                System.err.println("Type of graph should be matrix or edgelist");
                 return;
         }
 
@@ -60,7 +61,7 @@ public class Main {
         try {
             Paths.get(path);
         } catch (InvalidPathException e) {
-            System.err.println("bad");
+            System.err.println("Can't parse a path");
         }
 
         graph.readGraph(path);
