@@ -24,9 +24,6 @@ public class JSONParser {
         for (int i = 0; i < jsonTweets.length(); i++) {
             JSONObject jsonObject = jsonTweets.getJSONObject(i);
 
-            JSONObject user = jsonObject.getJSONObject("user");
-            System.out.println(user.getString("screen_name"));
-
             try {
                 Date date = dateFormat.parse(jsonObject.getString("created_at"));
 

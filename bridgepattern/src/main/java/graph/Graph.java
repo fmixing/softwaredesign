@@ -10,7 +10,7 @@ public abstract class Graph {
 
 
     /**
-     * Bridge to drawing api
+     * Bridge to drawing main.java.api
      */
     private DrawingApi drawingApi;
 
