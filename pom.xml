@@ -13,6 +13,7 @@
         <module>assertions</module>
         <module>refactoring</module>
         <module>twitterapi</module>
+        <module>mvc</module>
     </modules>
 
     <properties>
