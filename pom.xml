@@ -15,6 +15,7 @@
         <module>twitterapi</module>
         <module>mvc</module>
         <module>bridgepattern</module>
+        <module>visitorstatepatterns</module>
     </modules>
 
     <properties>
