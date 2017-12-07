@@ -16,6 +16,7 @@
         <module>mvc</module>
         <module>bridgepattern</module>
         <module>visitorstatepatterns</module>
+        <module>clockpattern</module>
     </modules>
 
     <properties>
