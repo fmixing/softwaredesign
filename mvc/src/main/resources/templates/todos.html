@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot and Thymeleaf example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<h1>Todos</h1>
+
+<form action="#" th:action="@{/todos}" method="post">
+    <h2>Create new list</h2>
+    <table>
+        <tr>
+            <td>Print new list name:</td>
+            <td><input type="text" th:value="${createlist.listName}" name="listName"/></td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit">Submit</button>
+            </td>
+        </tr>
+    </table>
+</form>
+<h2>All todo lists</h2>
+<table>
+    <th:block th:each="todolist : ${todolists.todoLists}">
+        <tr>
+            <form action="#" th:action="@{/delete}" th:method="post">
+                <input type="hidden" name="name" th:value="${todolist.name}"/>
+                <button type="submit">delete todo</button>
+            </form>
+        </tr>
+
+        <tr>
+            <td>Todo list name:</td>
+            <td th:text="${todolist.name}"></td>
+        </tr>
+
+        <table>
+            <th:block th:each="todo : ${todolist.todos}">
+                <tr>
+                    <form action="#" th:action="@{/check}" th:method="post">
+                        <td th:text="${todo.todoname}"></td>
+                        <input type="hidden" name="name" th:value="${todolist.name}" onclick=""/>
+                        <input type="hidden" name="todoname" th:value="${todo.todoname}" onclick=""/>
+                        <td><button type="submit">Todo is done</button></td>
+                    </form>
+                </tr>
+            </th:block>
+        </table>
+
+
+        <tr>
+            <form action="#" th:action="@{/add}" th:method="post">
+                <table>
+                    <tr>
+                        <td>Add new todo:</td>
+                        <td><input type="text" th:value="${addtodo.todoname}" name="todoname"/></td>
+                        <td>
+                            <input type="hidden" name="name" th:value="${todolist.name}" onclick=""/>
+                            <button type="submit">Add new todo</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </tr>
+
+        <br/>
+    </th:block>
+</table>
+</body>
+</html>

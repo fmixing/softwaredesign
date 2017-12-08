@@ -27,8 +27,8 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <version>1.5.4.RELEASE</version>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>1.5.8.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -63,6 +63,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.4.0.RELEASE</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.springframework</groupId>
