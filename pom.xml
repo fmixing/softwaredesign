@@ -17,6 +17,7 @@
         <module>bridgepattern</module>
         <module>visitorstatepatterns</module>
         <module>clockpattern</module>
+        <module>akka</module>
     </modules>
 
     <properties>
