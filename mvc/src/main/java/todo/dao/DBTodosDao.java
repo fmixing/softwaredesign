@@ -104,6 +104,6 @@ public class DBTodosDao implements TodosDao {
     private TodoListModel getTodoList(String listName) {
         TodoListModel todoListModel = new TodoListModel();
         todoListModel.setName(listName);
-        return todoListRepository.findOne(Example.of(todoListModel));
+        return todoListRepository.findOne(Example.of(todoListModel)).orElse(null);
     }
 }
